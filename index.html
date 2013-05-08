@@ -9,8 +9,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
     
-    var username = "movistarperu",
-        key="R_a7ea6e6448bfe1bedea425a655c71e82";
+    var username = "USUARIO",
+        key="APIKEY";
 
 function bit_url(url) { 
     $.getJSON("http://api.bitly.com/v3/shorten?callback=?",
@@ -45,8 +45,7 @@ function verifica(url){
                         "format": "json",
                         "apiKey": key,
                         "login": username,
-                        "longUrl": url,
-                        "domain": 'mvst.pe'
+                        "longUrl": url
                     }, function(response){
                         console.log(response.data.url);
                     }
