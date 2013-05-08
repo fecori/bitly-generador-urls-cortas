@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Untitled</title>
+</head>
+<body>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    
+    var username = "movistarperu",
+        key="R_a7ea6e6448bfe1bedea425a655c71e82";
+
+function bit_url(url) { 
+    $.getJSON("http://api.bitly.com/v3/shorten?callback=?",
+        { 
+            "format": "json",
+            "apiKey": key,
+            "login": username,
+            "longUrl": url,
+            //"domain": 'j.mp'
+            "domain": 'mvst.pe'
+        },
+        function(response)
+        {
+            console.log(response.data.url);
+        }
+    );
+    
+}
+
+function verifica(url){
+    $.getJSON("http://api.bitly.com/v3/lookup?callback=?",
+        { 
+            "format": "json",
+            "apiKey": key,
+            "login": username,
+            "url": url
+        },
+        function(response)
+        {
+            if(response.data.lookup[0]['error']){
+                $.getJSON("http://api.bitly.com/v3/shorten?callback=?",{ 
+                        "format": "json",
+                        "apiKey": key,
+                        "login": username,
+                        "longUrl": url,
+                        "domain": 'mvst.pe'
+                    }, function(response){
+                        console.log(response.data.url);
+                    }
+                );
+            }else{
+                console.log(response.data.lookup[0]['short_url']);
+            }
+        }
+    );
+}
+
+
+$("#short").click(function(){
+    var url=$("#url").val();
+    var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    var urltest=urlRegex.test(url);
+    if(urltest){
+        bit_url(url);
+    }else{
+        alert("Bad URL");
+    }
+});
+
+$("#btnVerifica").click(function(){
+    var url=$("#urlverifica").val();
+    var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    var urltest=urlRegex.test(url);
+    if(urltest){
+        verifica(url);
+    }else{
+        alert("Bad URL");
+    }
+});
+
+});
+</script>
+
+//HTML Code
+<input type="text" name="url" id="url"/> 
+<input type="submit" id="short" value="Submit"/>
+
+<input type="text" name="urlverifica" id="urlverifica"/> 
+<input type="submit" id="btnVerifica" value="Submit"/>
+ 
+<div id="result"></div>
+</body>
+</html>
