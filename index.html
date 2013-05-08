@@ -19,8 +19,7 @@ function bit_url(url) {
             "apiKey": key,
             "login": username,
             "longUrl": url,
-            //"domain": 'j.mp'
-            "domain": 'mvst.pe'
+            "domain": 'j.mp'
         },
         function(response)
         {
@@ -45,7 +44,8 @@ function verifica(url){
                         "format": "json",
                         "apiKey": key,
                         "login": username,
-                        "longUrl": url
+                        "longUrl": url,
+			"domain": 'j.mp'
                     }, function(response){
                         console.log(response.data.url);
                     }
